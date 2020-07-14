@@ -38,13 +38,12 @@ def adduser():
         con.commit()
     return ''
 
-@app.route('/api/award', methods=['POST'])
-def award():
+@app.route('/api/award/<int:awardee>/<int:point_change>', methods=['POST'])
+def award(awardee, point_change):
     query = 'insert into points (awarder, awardee, point_change) values (?, ?, ?)'
-    point_change = request.form['point_change']
     with sqlite3.connect(dbfilename) as con:
         cur = con.cursor()
-        cur.execute(query, (1, 1, point_change))
+        cur.execute(query, (-1, awardee, point_change))
         cur.close()
         con.commit()
     return ''
